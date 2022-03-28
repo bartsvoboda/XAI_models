@@ -1,5 +1,5 @@
 # Pipeline preprocessing
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
 from sklearn.compose import make_column_transformer
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import train_test_split
@@ -10,7 +10,9 @@ import numpy as np
     # return preprocesing for num features only
 def num_feat_preprocessing(num_names):
     preprocess = make_column_transformer(
-        (StandardScaler(), num_names)
+        # (StandardScaler(), num_names)
+        (MinMaxScaler(), num_names)
+
     )
     return preprocess
 
@@ -18,7 +20,9 @@ def num_feat_preprocessing(num_names):
 def feat_preprocessing(num_names, cat_names):
     preprocess = make_column_transformer(
         (OneHotEncoder(), cat_names),
-        (StandardScaler(), num_names)
+        # (StandardScaler(), num_names)
+        (MinMaxScaler(), num_names)
+
     )
     return preprocess
 
