@@ -19,7 +19,7 @@ def num_feat_preprocessing(num_names):
     # return preprocesing for all features
 def feat_preprocessing(num_names, cat_names):
     preprocess = make_column_transformer(
-        (OneHotEncoder(), cat_names),
+        (OneHotEncoder(sparse=False), cat_names),
         (StandardScaler(), num_names),
         # (MinMaxScaler(), num_names)
 
@@ -29,7 +29,7 @@ def feat_preprocessing(num_names, cat_names):
 # return preprocesing for cat features only
 def cat_feat_preprocessing(cat_names):
     preprocess = make_column_transformer(
-        (OneHotEncoder(), cat_names)
+        (OneHotEncoder(sparse=False), cat_names)
     )
     return preprocess
     
