@@ -253,14 +253,15 @@ n_datasets = len(datasets)
 n_splits = 10
 skf = StratifiedKFold(n_splits=n_splits, random_state=1234, shuffle=True)
 
-for dataset in datasets:
+# for dataset in datasets:
     #import dataset
-    X = pd.read_csv(f"./datasets/cleaned/{dataset}_X.csv")
-    X = X.drop("Unnamed: 0", axis=1)
-    y = pd.read_csv(f"./datasets/cleaned/{dataset}_y.csv")
-    y = y.drop("Unnamed: 0", axis=1)
-    X.head()
+dataset = "german"
+X = pd.read_csv(f"./datasets/cleaned/{dataset}_X.csv")
+X = X.drop("Unnamed: 0", axis=1)
+y = pd.read_csv(f"./datasets/cleaned/{dataset}_y.csv")
+y = y.drop("Unnamed: 0", axis=1)
+X.head()
 
-    for fold_id, (train, test) in enumerate(skf.split(X, y)):
-        calculate_and_save_losses(fold_id, "EBM", dataset, train_idx=train, test_idx=test)
+for fold_id, (train, test) in enumerate(skf.split(X, y)):
+  calculate_and_save_losses(fold_id, "GNB", dataset, train_idx=train, test_idx=test)
     
