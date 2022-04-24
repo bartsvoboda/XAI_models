@@ -4,12 +4,12 @@ def load_dataset_with_preprocess(dataset):
     # import importlib
     # importlib.reload(..helper)
 
-    X=pd.read_csv(f"../../datasets/cleaned/{dataset}_X.csv")
+    X=pd.read_csv(f"../../../datasets/cleaned/{dataset}_X.csv")
     X = X.drop("Unnamed: 0", axis=1)
-    y = pd.read_csv(f"../../datasets/cleaned/{dataset}_y.csv")
+    y = pd.read_csv(f"../../../datasets/cleaned/{dataset}_y.csv")
     y = y.drop("Unnamed: 0", axis=1)
 
-    features_types_df = pd.read_csv(f"../../datasets/cleaned/datatypes/{dataset}.csv")
+    features_types_df = pd.read_csv(f"../../../datasets/cleaned/datatypes/{dataset}.csv")
 
     feature_inidices = list(map(int, list(features_types_df)))
     features_names = list(features_types_df.T[0])
