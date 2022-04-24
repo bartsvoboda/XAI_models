@@ -9,19 +9,20 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import BaggingClassifier
 
 clfs = {
-    # "CART": DecisionTreeClassifier(random_state=1234),
-    # "RNF": RandomForestClassifier(random_state=1234),
-    # "XGB": XGBClassifier(use_label_encoder=False),
-    # "CAT": CatBoostClassifier(random_state=1234),
-    "ADA": AdaBoostClassifier(SVC(random_state=1234, kernel='rbf', probability=True)),
-    "BAG": BaggingClassifier(SVC(random_state=1234, kernel='rbf', probability=True))
+    "CART": DecisionTreeClassifier(random_state=1234, max_depth=1000),
+    "RNF": RandomForestClassifier(random_state=1234),
+    "XGB": XGBClassifier(use_label_encoder=False),
+    "CAT": CatBoostClassifier(random_state=1234),
+    "ADA": AdaBoostClassifier(DecisionTreeClassifier(random_state=1234, max_depth=1000)),
+    "BAG": BaggingClassifier(DecisionTreeClassifier(random_state=1234, max_depth=1000))
+    # "ADA": AdaBoostClassifier(SVC(random_state=1234, kernel='rbf', probability=True)),
+    # "BAG": BaggingClassifier(SVC(random_state=1234, kernel='rbf', probability=True))
 }
 
-# datasets = ['breast', 'campus', 'churn', 'climate',
-#             'compas', 'diabetes', 'german', 'heart',
-#             'adult', 'student', 'bank', 'credit']
+datasets = ['breast', 'campus', 'churn', 'climate',
+            'compas', 'diabetes', 'german', 'heart',
+            'adult', 'student', 'bank', 'credit']
 
-datasets = ["heart"]
 
 from sklearn.metrics import recall_score, precision_score, accuracy_score,f1_score, auc, roc_curve
 metrics_dict = {
@@ -76,7 +77,8 @@ for data_id, dataset in enumerate(datasets):
                 
             clf_pipeline.fit(X.iloc[train], y.iloc[train])
             y_preds = clf_pipeline.predict(X.iloc[test])
-
+            print(dataset)
+            print(clf_name)
             for metric_id, metric in enumerate(metrics_dict):
                 if metric_id == 4:
                     fpr, tpr, thresholds = metrics.roc_curve(y.iloc[test], y_preds)
@@ -85,5 +87,5 @@ for data_id, dataset in enumerate(datasets):
                     scores[clf_id, data_id, fold_id, metric_id] = metrics_dict[metric](y.iloc[test], y_preds)
 
 
-np.save('./heart_ada_bag', scores)
+np.save('./scores', scores)
 # np.save('./test_results/auc/auc_losses', loss)
